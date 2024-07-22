@@ -1,0 +1,15 @@
+<!-- assumes ArticlesController#show exists -->
+
+<%= turbo_frame_tag :search do %>
+  <% if @articles.any? %>
+    <ul>
+      <% @articles.each do |article| %>
+        <li>
+          <%= link_to article.title, article, data: { turbo_frame: "_top" } %>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p>No results</p>
+  <% end %>
+<% end %>

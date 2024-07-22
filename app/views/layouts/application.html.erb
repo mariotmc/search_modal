@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>SearchModal</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body>
+    <%= yield %>
+
+    <dialog data-controller="dialog" data-action="keydown.meta+k@window->dialog#open">
+      <form method="dialog">
+        <button>Close</button>
+      </form>
+
+      <%= form_with url: search_path, method: :get, data: { controller: "autosubmit", autosubmit_delay_value: 300, turbo_frame: :search } do |f| %>
+        <%= f.search_field :query, autofocus: true, data: { action: "autosubmit#submit" } %>
+      <% end %>
+
+      <%= turbo_frame_tag :search, loading: :lazy, src: search_path %>
+    </dialog>
+  </body>
+</html>
